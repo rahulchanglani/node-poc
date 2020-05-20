@@ -1,4 +1,4 @@
-# POC for node/express server demonstrating crud operations using MongoDB
+# POC for node/express server demonstrating CRUD operations using MongoDB
 
 ## Pre-requisite softwares
 
@@ -12,5 +12,13 @@
 Run the following command to start the server app 
 
 ```javascript
-node index.js
+npm start
 ```
+
+## VS Code Plugins
+
+- ESLint
+- Gitlens
+- Git history
+- Prettier
+- Bracket Pair Colorizer
