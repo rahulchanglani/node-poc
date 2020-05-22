@@ -6,9 +6,16 @@
 - db connection
 - Basic api endpoints
 
-21st May
+22nd May
 
-- creating schema for sample collection
-- CRUD operations db
+- Get and Post and Delete operations db
 - plugins for vs code
+- Coding standards es6
+
+25th May
+
+- Put operations db
 - routes organized in project
+- creating new schema for sample collection
+
+

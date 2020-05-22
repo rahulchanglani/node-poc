@@ -15,6 +15,16 @@ Run the following command to start the server app
 npm start
 ```
 
+
+## PROJECT Structure
+
+config/ - configuration & env variables
+controllers/ - api routes grouped
+lib/ - helpers
+model/ - schema
+test/ - unit tests
+
+
 ## VS Code Plugins
 
 - ESLint
