@@ -43,6 +43,14 @@ async function main() {
 
         await listDatabases(client);
 
+        await createCollection(client.db('sample_airbnb'))
+            .then((response) => {
+                console.log('Collection created')
+            })
+            .catch((err3) => {
+                console.log('Error creating collection', err3)
+            })
+
     } catch (e) {
         console.error('Error connecting to db...', e);
     }
@@ -60,6 +68,30 @@ async function listDatabases(client) {
     databasesList.databases.forEach(db => console.log(` - ${db.name}`));
 };
 
+async function createCollection(db) {
+    return new Promise((resolve, reject) => {
+        db.createCollection("contacts",
+            {
+                'validator': {
+                    '$or':
+                        [
+                            { 'phone': { '$type': "string" } },
+                            { 'email': { '$regex': /@mongodb\.com$/ } },
+                            { 'status': { '$in': ["Unknown", "Incomplete"] } }
+                        ]
+                }
+            },
+            function (err, results) {
+                if (err) {
+                    reject(0)
+                }
+                if (results) {
+                    resolve(1)
+                }
+            }
+        );
+    })
+};
 
 // Middlewares
 app.use(express.json());
@@ -69,7 +101,7 @@ app.use(express.urlencoded({ extended: true }));   // http://localhost:5000/api/
 // API routes
 
 app.get('/listings', async (req, res) => {
-    // let nameOfListing = req.param.nameOfListing;
+    // let nameOfListing = req.params.nameOfListing;
     // let nameOfListing = "Infinite Views";
     let nameOfListing = "Ribeira Charming Duplex";
     let result = await client.db("sample_airbnb").collection("listingsAndReviews")
@@ -78,7 +110,6 @@ app.get('/listings', async (req, res) => {
     if (result) {
         console.log(`Found a listing in the collection with the name '${nameOfListing}':`);
         res.status(200).send({ data: result, message: `Found a listing in the collection with the name '${nameOfListing}':` })
-
     } else {
         console.log(`No listings found with the name '${nameOfListing}'`);
         res.status(200).send({ data: null, message: `No listings found with the name '${nameOfListing}'` })
@@ -90,11 +121,7 @@ app.post('/listings', async (req, res) => {
     await client.db("sample_airbnb").collection("listingsAndReviews").insertOne(newListing)
         .then(result => {
             console.log(`New listing created with the following id: ${result.insertedId}`);
-            await client.db("sample_airbnb").collection("users")
-            .then(result => {
-                console.log(`New listing created with the following id: ${result.insertedId}`);
-                res.status(200).send({ message: `Successfully inserted '${result.insertedId}'` })
-            })
+            res.status(200).send({ message: `Successfully inserted '${result.insertedId}'` })
         })
         .catch(err => {
             console.log('Error while creating object', err);
@@ -102,26 +129,41 @@ app.post('/listings', async (req, res) => {
         })
 });
 
-
 app.delete('/listings/:name?', async (req, res) => {
-    let nameOfListing = req.param.name;
+    let nameOfListing = req.params.name;
     // let nameOfListing = "Dummy";
     await client.db("sample_airbnb").collection("listingsAndReviews")
         .deleteOne({ name: nameOfListing })
         .then(result => {
             console.log(`${result.deletedCount} document(s) was/were deleted.`);
+            res.status(200).send({ message: `Successfully deleted` })
         })
         .catch(err => {
             console.log('error while deleting')
+            res.status(500).send({ message: `Error during deletion '${err}'` })
         })
 })
 
-app.put('/infy-put', (req, res) => {
-    console.log('put http req')
-    res.status(200).send({ message: 'put http request' })
-});
+app.put('/listings/:name', async (req, res) => {
+    let nameOfListing = req.params.name;
+    let updatedListing = req.body;
+    await client.db("sample_airbnb").collection("listingsAndReviews")
+        .updateOne({ name: nameOfListing }, { $set: updatedListing })
+        .then(result => {
+            console.log(`${result.matchedCount} document(s) matched the query criteria.`);
+            console.log(`${result.modifiedCount} document(s) was/were updated.`);
+            if (result.matchedCount > 0) {
+                res.status(200).send({ message: `Successfully updated ${result.modifiedCount} document` })
+            } else {
+                res.status(200).send({ message: `No matching record to update` })
+            }
+        })
+        .catch(err => {
+            console.log('error while updating')
+            res.status(500).send({ message: `Error while updating '${err}'` })
+        })
+})
 
-// app.use('/users', userController);
 
 async function closeDb() {
     await client.close();
