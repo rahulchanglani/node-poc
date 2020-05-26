@@ -20,6 +20,10 @@
 
 26th May
 
--   routes organized in project as fn for tests
+-   routes organized in project
 -   apis in mongoose
 -   env
+
+27th May
+
+-   Unit tests
