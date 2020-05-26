@@ -15,7 +15,7 @@
 25th May
 
 -   Put operations db
--   creating new schema
+-   creating new schema [Mongoose - https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose, MongoDB client - http://mongodb.github.io/node-mongodb-native/3.5/tutorials/]
 -   Schema data types
 
 26th May
