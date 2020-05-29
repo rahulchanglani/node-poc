@@ -1,33 +1,40 @@
 {
-  "name": "node",
-  "version": "1.0.0",
-  "description": "Node.js Training",
-  "main": "index.js",
-  "directories": {
-    "lib": "lib",
-    "test": "test"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rahulchanglani/node-poc.git"
-  },
-  "dependencies": {
-    "-": "0.0.1",
-    "eslint": "^7.0.0",
-    "express": "^4.17.1",
-    "g": "^2.0.1",
-    "mongodb": "^3.5.7",
-    "mongoose": "^5.9.15"
-  },
-  "keywords": [],
-  "author": "Rahul Changlani <rahul.changlani@gmail.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/rahulchanglani/node-poc/issues"
-  },
-  "homepage": "https://github.com/rahulchanglani/node-poc#readme"
+    "name": "node",
+    "version": "1.0.0",
+    "description": "Node.js Training",
+    "main": "index.js",
+    "directories": {
+        "lib": "lib",
+        "test": "test"
+    },
+    "scripts": {
+        "test": "mocha --timeout 3000",
+        "start": "node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/rahulchanglani/node-poc.git"
+    },
+    "dependencies": {
+        "-": "0.0.1",
+        "chai": "^4.2.0",
+        "eslint": "^7.0.0",
+        "express": "^4.17.1",
+        "g": "^2.0.1",
+        "mocha": "^7.2.0",
+        "mongodb": "^3.5.7",
+        "mongoose": "^5.9.15",
+        "request-promise": "^4.2.5",
+        "supertest": "^4.0.2"
+    },
+    "keywords": [],
+    "author": "Rahul Changlani <rahul.changlani@gmail.com>",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/rahulchanglani/node-poc/issues"
+    },
+    "homepage": "https://github.com/rahulchanglani/node-poc#readme",
+    "devDependencies": {
+        "fakerator": "^0.3.1"
+    }
 }

@@ -13,7 +13,6 @@ router.get('/', async (req, res) => {
         .catch(err => {
             res.status(200).send({ data: null, message: err })
         })
-
 });
 
 // Filter by name
@@ -31,15 +30,17 @@ router.get('/:name', async (req, res) => {
 });
 
 // Create new
-router.post('/', async (req, res) => {
+router.post('/', (req, res) => {
     const newListing = new listingAndReviews(req.body)
-    try {
-        await newListing.save();
-        res.send(newListing);
-    } catch (err) {
-        res.status(500).send(err);
-    }
-});
+    newListing.save()
+        .then((ress) => {
+            res.send(ress);
+        })
+        .catch((err) => {
+            console.log('err', err)
+            res.status(500).send(err);
+        });
+})
 
 // delete one
 router.delete('/:name', async (req, res) => {
